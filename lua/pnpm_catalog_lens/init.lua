@@ -1,5 +1,5 @@
 local api = vim.api
-local ns = api.nvim_create_namespace("cronex")
+local ns = api.nvim_create_namespace("pnpm_catalog_lens")
 local pnpm_catalog_lens_api = require("pnpm_catalog_lens.api")
 
 ---@class PNPM_CATALOG_LENS_CONSTANTS
