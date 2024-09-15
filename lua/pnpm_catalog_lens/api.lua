@@ -6,6 +6,7 @@
 
 local api = vim.api
 local uv = vim.uv
+local fs = vim.fs
 local yaml = require("pnpm_catalog_lens.yaml")
 
 ---@class PNPM_CATALOG_LENS_CONSTANTS
@@ -26,11 +27,11 @@ end
 
 M.find_pnpm_workspace = function()
 	local cwd = vim.fn.getcwd()
-	local root_dir = vim.fs.root(cwd, vim.iter({ ".git", constants.PNPM_WORKSPACE }):flatten(math.huge):totable())
+	local root_dir = fs.root(cwd, vim.iter({ ".git", constants.PNPM_WORKSPACE }):flatten(math.huge):totable())
 
 	-- check if target is PNPM_WORKSPACE file
-	local pnpm_workspace_path = vim.fs.joinpath(root_dir, constants.PNPM_WORKSPACE)
-	if root_dir ~= nil and vim.uv.fs_stat(pnpm_workspace_path) ~= nil then
+	local pnpm_workspace_path = fs.joinpath(root_dir, constants.PNPM_WORKSPACE)
+	if root_dir ~= nil and uv.fs_stat(pnpm_workspace_path) ~= nil then
 		return pnpm_workspace_path
 	end
 
