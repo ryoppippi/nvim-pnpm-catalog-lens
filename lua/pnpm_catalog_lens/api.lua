@@ -1,6 +1,6 @@
 ---@diagnostic disable: redefined-local
 
----@alias CatalogDependency {line: number, col: number}
+---@alias CatalogDependency {line: number, col: number, named: string|nil}
 ---@alias Catalog table<string, string>
 ---@alias Catalogs table<string, Catalog>
 
@@ -38,8 +38,8 @@ M.find_pnpm_workspace = function()
 end
 
 -- parse pnpm-workspace.yaml and return catalogs
----@return Catalog | nil
-M.get_catalog_from_pnpm_workspace_yaml = function()
+---@return {catalogs: Catalogs|nil, catalog: Catalog|nil} | nil
+M.get_catalog_and_catalogs_from_pnpm_workspace_yaml = function()
 	local workspace_path = M.find_pnpm_workspace()
 	if workspace_path == nil then
 		return nil
@@ -50,13 +50,10 @@ M.get_catalog_from_pnpm_workspace_yaml = function()
 
 	local yaml_data = yaml.eval(data)
 
-	local catalog = yaml_data.catalog
-
-	if catalog == nil then
-		return nil
-	end
-
-	return catalog
+	return {
+		catalog = yaml_data.catalog,
+		catalogs = yaml_data.catalogs,
+	}
 end
 
 -- parse the currrent buffer and return the keys/line/col which value is `:catalog`
@@ -72,8 +69,13 @@ M.extract_catalog_dependencies_from_package_json = function(bufnr)
 				-- get catalog key (ex. "zod": "catalog:" -> "zod")
 				---@type string | nil
 				local catalog_pkg = line:match('"(.-)"')
+
+				--get named catalog (ex. "react": "catalog:react18" -> "react18")
+				---@type string | nil
+				local named = line:match("catalog:(%w+)")
+
 				if catalog_pkg ~= nil then
-					result[catalog_pkg] = { line = i - 1, col = catalog_col }
+					result[catalog_pkg] = { line = i - 1, col = catalog_col, named = named }
 				end
 			end
 		end
