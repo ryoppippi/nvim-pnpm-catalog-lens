@@ -7,6 +7,7 @@ local pnpm_catalog_lens_api = require("pnpm_catalog_lens.api")
 ---@class PNPM_CATALOG_LENS_CONSTANTS
 local constants = require("pnpm_catalog_lens.constants")
 
+---@class PNPM_CATALOG_LENS_INIT
 local M = {}
 
 -- This function is called when the user leaves insert mode or changes the text
@@ -90,27 +91,6 @@ M.disable = function()
 	pcall(function()
 		api.nvim_del_augroup_by_id(M.augroup)
 	end)
-end
-
-M.setup = function()
-	api.nvim_create_user_command(
-		"PnpmCatalogLensEnable",
-		M.enable,
-		{ nargs = 0, desc = "Enable the pnpm catalog lens" }
-	)
-
-	api.nvim_create_user_command(
-		"PnpmCatalogLensDisable",
-		M.disable,
-		{ nargs = 0, desc = "Disable the pnpm catalog lens" }
-	)
-
-	api.nvim_create_autocmd({ "BufEnter" }, {
-		group = M.augroup,
-		pattern = constants.PACKAGE_JSON,
-		callback = M.enable,
-		desc = "Enable the pnpm catalog lens when opening package.json",
-	})
 end
 
 return M

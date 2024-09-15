@@ -21,9 +21,7 @@ Using lazy.nvim:
 ---@type LazySpec
 return {
   'https://github.com/ryoppippi/nvim-pnpm-catalog-lens',
-  config = function()
-    require('pnpm_catalog_lens').setup()
-  end
+  ft= { 'json' }
 }
 ```
 
