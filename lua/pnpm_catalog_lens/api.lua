@@ -39,7 +39,7 @@ end
 
 -- parse pnpm-workspace.yaml and return catalogs
 ---@return Catalog | nil
-M.get_catalogs_from_pnpm_workspace_yaml = function()
+M.get_catalog_from_pnpm_workspace_yaml = function()
 	local workspace_path = M.find_pnpm_workspace()
 	if workspace_path == nil then
 		return nil

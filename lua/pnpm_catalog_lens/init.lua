@@ -13,9 +13,9 @@ local M = {}
 M.set_diagnostics = function()
 	local bufnr = api.nvim_get_current_buf()
 
-	local catalogs = pnpm_catalog_lens_api.get_catalogs_from_pnpm_workspace_yaml()
+	local catalog = pnpm_catalog_lens_api.get_catalog_from_pnpm_workspace_yaml()
 
-	if catalogs == nil then
+	if catalog == nil then
 		return
 	end
 
@@ -28,14 +28,14 @@ M.set_diagnostics = function()
 	local diagnostics = {}
 	-- Clear existing diagnostics
 	vim.diagnostic.reset(ns, bufnr) -- Start fresh
-	for catalog, _ in pairs(catalog_deps) do
-		local catalog_dep_info = catalogs[catalog]
-		if catalog_dep_info ~= nil then
+	for dep, dep_info in pairs(catalog_deps) do
+		local version = catalog[dep]
+		if version ~= nil then
 			table.insert(diagnostics, {
 				bufnr = bufnr,
-				lnum = catalog_deps[catalog].line,
-				col = catalog_deps[catalog].col,
-				message = catalogs[catalog],
+				lnum = dep_info.line,
+				col = dep_info.col,
+				message = version,
 				severity = vim.diagnostic.severity.HINT,
 			})
 		end
