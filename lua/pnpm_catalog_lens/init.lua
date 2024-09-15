@@ -1,11 +1,12 @@
 local api = vim.api
-local ns = api.nvim_create_namespace("pnpm_catalog_lens")
 
 ---@class PNPM_CATALOG_LENS_API
 local pnpm_catalog_lens_api = require("pnpm_catalog_lens.api")
 
 ---@class PNPM_CATALOG_LENS_CONSTANTS
 local constants = require("pnpm_catalog_lens.constants")
+
+local ns = api.nvim_create_namespace(constants.NAME)
 
 ---@class PNPM_CATALOG_LENS_INIT
 local M = {}
@@ -64,7 +65,7 @@ M.hide_lens = function()
 end
 
 M.enable = function()
-	M.augroup = api.nvim_create_augroup("pnpm-catalog-lens", { clear = true })
+	M.augroup = api.nvim_create_augroup(constants.NAME, { clear = true })
 
 	local bufnr = api.nvim_get_current_buf()
 	api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
