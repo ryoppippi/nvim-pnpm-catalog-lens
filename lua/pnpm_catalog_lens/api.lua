@@ -1,5 +1,8 @@
 ---@diagnostic disable: redefined-local
 
+---@alias CatalogDependency {line: number, col: number}
+---@alias Catalog table<string, string | table<string, string>>
+
 local api = vim.api
 local uv = vim.uv
 local yaml = require("pnpm_catalog_lens.yaml")
@@ -33,7 +36,7 @@ M.find_pnpm_workspace = function()
 end
 
 -- parse pnpm-workspace.yaml and return catalogs
----@return table<string, string> | nil
+---@return Catalog | nil
 M.get_catalogs_from_pnpm_workspace_yaml = function()
 	local workspace_path = M.find_pnpm_workspace()
 	if workspace_path == nil then
@@ -53,8 +56,6 @@ M.get_catalogs_from_pnpm_workspace_yaml = function()
 
 	return catalog
 end
-
----@alias CatalogDependency {line: number, col: number}
 
 -- parse the currrent buffer and return the keys/line/col which value is `:catalog`
 ---@param bufnr number buffer number
