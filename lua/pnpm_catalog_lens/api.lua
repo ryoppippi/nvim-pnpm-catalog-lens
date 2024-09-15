@@ -1,7 +1,8 @@
 ---@diagnostic disable: redefined-local
 
 ---@alias CatalogDependency {line: number, col: number}
----@alias Catalog table<string, string | table<string, string>>
+---@alias Catalog table<string, string>
+---@alias Catalogs table<string, Catalog>
 
 local api = vim.api
 local uv = vim.uv
