@@ -28,8 +28,6 @@ M.set_diagnostics = function()
 	local catalog = cc.catalog
 	local catalogs = cc.catalogs
 
-	vim.print(cc)
-
 	local diagnostics = {}
 	-- Clear existing diagnostics
 	vim.diagnostic.reset(ns, bufnr) -- Start fresh
@@ -65,7 +63,6 @@ M.hide_lens = function()
 end
 
 M.enable = function()
-	vim.print("enable")
 	M.augroup = api.nvim_create_augroup("pnpm-catalog-lens", { clear = true })
 
 	local bufnr = api.nvim_get_current_buf()
