@@ -1,5 +1,7 @@
 local api = vim.api
 local ns = api.nvim_create_namespace("pnpm_catalog_lens")
+
+---@class PNPM_CATALOG_LENS_API
 local pnpm_catalog_lens_api = require("pnpm_catalog_lens.api")
 
 ---@class PNPM_CATALOG_LENS_CONSTANTS
@@ -11,14 +13,12 @@ local M = {}
 M.set_diagnostics = function()
 	local bufnr = api.nvim_get_current_buf()
 
-	---@type table<string, string> | nil
 	local catalogs = pnpm_catalog_lens_api.get_catalogs_from_pnpm_workspace_yaml()
 
 	if catalogs == nil then
 		return
 	end
 
-	---@type table<string, CatalogDependency> | nil
 	local catalog_deps = pnpm_catalog_lens_api.extract_catalog_dependencies_from_package_json(bufnr)
 
 	if catalog_deps == nil then

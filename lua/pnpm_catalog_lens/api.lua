@@ -10,6 +10,7 @@ local yaml = require("pnpm_catalog_lens.yaml")
 ---@class PNPM_CATALOG_LENS_CONSTANTS
 local constants = require("pnpm_catalog_lens.constants")
 
+---@class PNPM_CATALOG_LENS_API
 local M = {}
 
 -- read file
