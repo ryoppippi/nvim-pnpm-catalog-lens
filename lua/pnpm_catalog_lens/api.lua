@@ -48,6 +48,13 @@ M.get_catalog_and_catalogs_from_pnpm_workspace_yaml = function()
 	local data = readFile(workspace_path)
 	vim.print(data)
 
+	if data == nil or #data == 0 then
+		return nil
+	end
+
+	-- delete blank lines
+	data = data:gsub("^%s+", ""):gsub("%s+$", ""):gsub("\n+", "\n")
+
 	local yaml_data = yaml.eval(data)
 
 	return {
