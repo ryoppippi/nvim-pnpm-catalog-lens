@@ -7,6 +7,8 @@ local M = {
 }
 
 -- Global variable for display option
-vim.g.pnpm_catalog_display = "diagnostics" -- options: "diagnostics" or "overlay"
+if vim.g.pnpm_catalog_display == nil then
+	vim.g.pnpm_catalog_display = "diagnostics" -- options: "diagnostics" or "overlay"
+end
 
 return M

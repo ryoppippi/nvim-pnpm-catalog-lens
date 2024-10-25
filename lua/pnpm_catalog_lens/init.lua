@@ -74,7 +74,11 @@ M.set_diagnostics = function()
 			end
 
 			if version ~= nil then
-				M.set_virtual_text(bufnr, dep_info.line, dep_info.col, version)
+				local text = version
+				api.nvim_buf_set_extmark(bufnr, ns, dep_info.line, dep_info.col - 1, {
+					virt_text = { { text, "Comment" } },
+					virt_text_pos = "overlay",
+				})
 			end
 		end
 	end
@@ -82,8 +86,8 @@ end
 
 M.set_virtual_text = function(bufnr, line, col, text)
 	api.nvim_buf_set_extmark(bufnr, ns, line, col, {
-			virt_text = { { text, "Comment" } },
-			virt_text_pos = "overlay",
+		virt_text = { { text, "Comment" } },
+		virt_text_pos = "overlay",
 	})
 end
 
