@@ -74,7 +74,7 @@ M.set_diagnostics = function()
 			end
 
 			if version ~= nil then
-				local text = version
+				local text = version .. string.rep(" ", #constants.CATALOG_PREFIX - #version)
 				api.nvim_buf_set_extmark(bufnr, ns, dep_info.line, dep_info.col - 1, {
 					virt_text = { { text, "Comment" } },
 					virt_text_pos = "overlay",
