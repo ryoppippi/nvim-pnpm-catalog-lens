@@ -45,6 +45,10 @@ Example:
 vim.g.pnpm_catalog_display = "overlay"
 ```
 
+## Heighlight
+
+- `PnpmCatalogLensOverlay`: Display the detected version as virtual text overlay on the `catalog:`. It is useful when you want to see the version without moving the cursor.
+
 ## Credits
 
 Logo is from

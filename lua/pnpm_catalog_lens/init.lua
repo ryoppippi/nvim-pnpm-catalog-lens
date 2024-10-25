@@ -78,6 +78,7 @@ M.set_diagnostics = function()
 				api.nvim_buf_set_extmark(bufnr, ns, dep_info.line, dep_info.col - 1, {
 					virt_text = { { text, "Comment" } },
 					virt_text_pos = "overlay",
+					hl_group = "PnpmCatalogLensOverlay",
 				})
 			end
 		end
