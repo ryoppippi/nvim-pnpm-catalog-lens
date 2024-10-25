@@ -6,4 +6,7 @@ local M = {
 	PACKAGE_JSON = "package.json",
 }
 
+-- Global variable for display option
+vim.g.pnpm_catalog_display = "diagnostics" -- options: "diagnostics" or "overlay"
+
 return M

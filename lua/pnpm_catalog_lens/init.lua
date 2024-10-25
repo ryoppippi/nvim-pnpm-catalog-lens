@@ -56,7 +56,35 @@ M.set_diagnostics = function()
 		end
 	end
 
-	vim.diagnostic.set(ns, bufnr, diagnostics)
+	if vim.g.pnpm_catalog_display == "diagnostics" then
+		vim.diagnostic.set(ns, bufnr, diagnostics)
+	end
+
+	if vim.g.pnpm_catalog_display == "overlay" then
+		for dep, dep_info in pairs(catalog_deps) do
+			---@type string|nil
+			local version = nil
+			if dep_info.named ~= nil then
+				local named_catalog = (catalogs or {})[dep_info.named]
+				if named_catalog ~= nil then
+					version = named_catalog[dep]
+				end
+			else
+				version = (catalog or {})[dep]
+			end
+
+			if version ~= nil then
+				M.set_virtual_text(bufnr, dep_info.line, dep_info.col, version)
+			end
+		end
+	end
+end
+
+M.set_virtual_text = function(bufnr, line, col, text)
+	api.nvim_buf_set_extmark(bufnr, ns, line, col, {
+			virt_text = { { text, "Comment" } },
+			virt_text_pos = "overlay",
+	})
 end
 
 M.hide_lens = function()
