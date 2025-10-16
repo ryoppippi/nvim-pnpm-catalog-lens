@@ -2,6 +2,7 @@
 local M = {
 	NAME = "pnpm-catalog-lens",
 	PNPM_WORKSPACE = "pnpm-workspace.yaml",
+	YARN_WORKSPACE = ".yarnrc.yml",
 	CATALOG_PREFIX = "catalog:",
 	PACKAGE_JSON = "package.json",
 }
