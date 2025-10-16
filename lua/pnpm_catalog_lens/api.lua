@@ -27,11 +27,21 @@ end
 
 M.find_pnpm_workspace = function()
 	local cwd = vim.fn.getcwd()
-	local root_dir = fs.root(cwd, vim.iter({ ".git", constants.PNPM_WORKSPACE }):flatten(math.huge):totable())
+	local root_dir = fs.root(
+		cwd,
+		vim.iter({ ".git", constants.PNPM_WORKSPACE, constants.YARN_WORKSPACE }):flatten(math.huge):totable()
+	)
 
-	local pnpm_workspace_path = fs.joinpath(root_dir or "", constants.PNPM_WORKSPACE)
-	if root_dir ~= nil and uv.fs_stat(pnpm_workspace_path) ~= nil then
-		return pnpm_workspace_path
+	if root_dir ~= nil then
+		local pnpm_workspace_path = fs.joinpath(root_dir or "", constants.PNPM_WORKSPACE)
+		if uv.fs_stat(pnpm_workspace_path) ~= nil then
+			return pnpm_workspace_path
+		end
+
+		local yarn_workspace_path = fs.joinpath(root_dir or "", constants.YARN_WORKSPACE)
+		if uv.fs_stat(yarn_workspace_path) ~= nil then
+			return yarn_workspace_path
+		end
 	end
 
 	return nil
