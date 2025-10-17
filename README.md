@@ -38,6 +38,7 @@ You can configure the display option for the detected version using the global v
 
 - `diagnostics`: Display the detected version as diagnostics (default).
 - `overlay`: Display the detected version as virtual text overlay on the `catalog:`.
+- `eol`: Display the detected version as virtual text at the end of the line.
 
 Example:
 
