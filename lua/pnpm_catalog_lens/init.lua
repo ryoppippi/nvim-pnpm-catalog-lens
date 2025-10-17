@@ -83,6 +83,33 @@ M.set_diagnostics = function()
 			end
 		end
 	end
+
+	if vim.g.pnpm_catalog_display == "eol" then
+		-- Clear existing extmarks
+		api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
+
+		for dep, dep_info in pairs(catalog_deps) do
+			---@type string|nil
+			local version = nil
+			if dep_info.named ~= nil then
+				local named_catalog = (catalogs or {})[dep_info.named]
+				if named_catalog ~= nil then
+					version = named_catalog[dep]
+				end
+			else
+				version = (catalog or {})[dep]
+			end
+
+			if version ~= nil then
+				local text = " " .. version
+				api.nvim_buf_set_extmark(bufnr, ns, dep_info.line, 0, {
+					virt_text = { { text, "Comment" } },
+					virt_text_pos = "eol",
+					hl_group = "PnpmCatalogLensInlay",
+				})
+			end
+		end
+	end
 end
 
 M.set_virtual_text = function(bufnr, line, col, text)
@@ -95,6 +122,7 @@ end
 M.hide_lens = function()
 	local bufnr = api.nvim_get_current_buf()
 	vim.diagnostic.reset(ns, bufnr)
+	api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
 end
 
 M.enable = function()
