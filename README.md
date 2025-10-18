@@ -38,6 +38,7 @@ You can configure the display option for the detected version using the global v
 
 - `diagnostics`: Display the detected version as diagnostics (default).
 - `overlay`: Display the detected version as virtual text overlay on the `catalog:`.
+- `eol`: Display the detected version as virtual text at the end of the line.
 
 Example:
 
@@ -45,9 +46,10 @@ Example:
 vim.g.pnpm_catalog_display = "overlay"
 ```
 
-## Heighlight
+## Highlight
 
 - `PnpmCatalogLensOverlay`: Display the detected version as virtual text overlay on the `catalog:`. It is useful when you want to see the version without moving the cursor.
+- `PnpmCatalogLensEol`: Display the detected version as virtual text at the end of the line. It is useful when you want to see catalog name and version together.
 
 ## Credits
 
