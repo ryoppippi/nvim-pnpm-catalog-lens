@@ -105,7 +105,7 @@ M.set_diagnostics = function()
 				api.nvim_buf_set_extmark(bufnr, ns, dep_info.line, 0, {
 					virt_text = { { text, "Comment" } },
 					virt_text_pos = "eol",
-					hl_group = "PnpmCatalogLensInlay",
+					hl_group = "PnpmCatalogLensEol",
 				})
 			end
 		end
