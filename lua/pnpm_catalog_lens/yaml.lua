@@ -152,7 +152,7 @@ local tokens = {
 	{ ":", "^:" },
 	{ "pipe", "^(|)(%d*[+%-]?)", sep = "\n" },
 	{ "pipe", "^(>)(%d*[+%-]?)", sep = " " },
-	{ "id", "^([%w/$][%w %-_\\.]*)(:[%s%c])" },
+	{ "id", "^([%w/$@][%w %-_\\.@/]*)(:[%s%c])" },
 	{ "string", "^([^%c]-)( #)[^\n]+", noinline = true }, --String with " #comment"
 	{ "string", "^([^%c]+)", noinline = true },
 	{ "string", "^[^,%]}%c ]+" },
@@ -286,7 +286,15 @@ Parser.expect = function(self, type, msg)
 end
 
 Parser.expectDedent = function(self, msg)
-	return self:accept("dedent") or (self:peek() == nil) or error(msg .. context(self:peek()[2].input))
+	if self:accept("dedent") then
+		return true
+	end
+	if self:peek() == nil then
+		return true
+	end
+	local token = self:peek()
+	local input = token.input or (token[2] and token[2].input) or ""
+	error(msg .. context(input))
 end
 
 Parser.peekType = function(self, val, offset)
