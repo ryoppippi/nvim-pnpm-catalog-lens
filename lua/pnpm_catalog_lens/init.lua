@@ -83,6 +83,28 @@ M.set_diagnostics = function()
 			end
 		end
 	end
+
+	if vim.g.pnpm_catalog_display == "inlay" then
+		for dep, dep_info in pairs(catalog_deps) do
+			---@type string|nil
+			local version = nil
+			if dep_info.named ~= nil then
+				local named_catalog = (catalogs or {})[dep_info.named]
+				if named_catalog ~= nil then
+					version = named_catalog[dep]
+				end
+			else
+				version = (catalog or {})[dep]
+			end
+
+			if version ~= nil then
+				api.nvim_buf_set_extmark(bufnr, ns, dep_info.line, 0, {
+					virt_text = { { " " .. version, "LspInlayHint" } },
+					virt_text_pos = "eol",
+				})
+			end
+		end
+	end
 end
 
 M.set_virtual_text = function(bufnr, line, col, text)
